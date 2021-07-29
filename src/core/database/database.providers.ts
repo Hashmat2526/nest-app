@@ -21,7 +21,16 @@ export const databaseProviders = [
         default:
           config = databaseConfig.development;
       }
-      const sequelize = new Sequelize(config);
+      console.log(config);
+      const sequelize = new Sequelize(
+        'postgres://ljcyurwy:XI_vro_6TXDapdCpC0MX11HRxscHbeid@chunee.db.elephantsql.com/ljcyurwy',
+      );
+      try {
+        await sequelize.authenticate();
+        console.log('Connection has been established successfully.');
+      } catch (error) {
+        console.error('Unable to connect to the database:', error);
+      }
       sequelize.addModels([User]);
       await sequelize.sync();
       return sequelize;
