@@ -1,4 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
+import { Post } from 'src/modules/posts/post.entity';
 import { User } from 'src/modules/users/user.entity';
 import { SEQUELIZE, DEVELOPMENT, TEST, PRODUCTION } from '../constants';
 import { databaseConfig } from './database.config';
@@ -21,17 +22,15 @@ export const databaseProviders = [
         default:
           config = databaseConfig.development;
       }
-      console.log(config);
-      const sequelize = new Sequelize(
-        'postgres://ljcyurwy:XI_vro_6TXDapdCpC0MX11HRxscHbeid@chunee.db.elephantsql.com/ljcyurwy',
-      );
+
+      const sequelize = new Sequelize(process.env.POSTGRES_CONNECTION_STRING);
       try {
         await sequelize.authenticate();
         console.log('Connection has been established successfully.');
       } catch (error) {
         console.error('Unable to connect to the database:', error);
       }
-      sequelize.addModels([User]);
+      sequelize.addModels([User, Post]);
       await sequelize.sync();
       return sequelize;
     },
