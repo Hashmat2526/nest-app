@@ -53,7 +53,7 @@ export class PostsController {
     @Param('id') id: number,
     @Body() post: PostDto,
     @Request() req,
-  ): Promise<PostEntity> {
+  ): Promise<any> {
     const { numberOfAffectedRows, updatedPost } = await this.postService.update(
       id,
       post,
